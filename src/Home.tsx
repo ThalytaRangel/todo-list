@@ -19,6 +19,13 @@ export interface TaskType {
 export function Home() {
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [newTask, setNewTask] = useState("");
+
+  const completedTaskCounter = tasks.reduce((prevValue, currentTask) => {
+    if(currentTask.isCompleted) {
+      return prevValue + 1
+    }
+    return prevValue
+  }, 0)
   
 
   function handleAddNewTask() {
@@ -73,7 +80,7 @@ export function Home() {
           </Button>        
         </div>
         <div className={styles.taskListContainer}>
-          <ListHeader/>
+          <ListHeader taskCounter={tasks.length} completedTaskCounter={completedTaskCounter}/>
           {tasks.map((task) => (
             <ItemList key={task.id} task={task} isTaskComplete={handleCompletedTask} removeTask={handleRemovedTask} />
           ))
